@@ -21,13 +21,10 @@ func FetchToken() (string, error) {
 		return "", fmt.Errorf("GitHub Actions OIDC env vars not set")
 	}
 
-	req, err := http.NewRequest("GET", reqURL, nil)
-	if err != nil {
-		return "", fmt.Errorf("creating request: %w", err)
-	}
-	req.Header.Set("Authorization", "bearer "+reqToken)
+	// Construct the full URL with audience parameter
+	fullURL := reqURL + "&audience=api://AzureADTokenExchange"
 
-	resp, err := http.DefaultClient.Do(req)
+	resp, err := http.Get(fullURL)
 	if err != nil {
 		return "", fmt.Errorf("requesting token: %w", err)
 	}
