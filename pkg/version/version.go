@@ -1,9 +1,12 @@
 package version
 
+import "runtime/debug"
 import "runtime"
 
 // gitTag is set via ldflags at build time.
 var gitTag string
+
+const unknownVersionInfo = "unknown"
 
 // Version holds build metadata.
 type Version struct {
@@ -16,15 +19,15 @@ type Version struct {
 // Get returns the current build version info.
 func Get() Version {
 	v := Version{
-		Version:   "unknown",
-		GoVersion: "unknown",
-		BuildTime: "unknown",
+		Version:   unknownVersionInfo,
+		GoVersion: unknownVersionInfo,
+		BuildTime: unknownVersionInfo,
 		Platform:  runtime.GOOS + "/" + runtime.GOARCH,
 	}
 	if gitTag != "" {
 		v.Version = gitTag
 	}
-	info, ok := runtime.ReadBuildInfo()
+	info, ok := debug.ReadBuildInfo()
 	if ok && info.GoVersion != "" {
 		v.GoVersion = info.GoVersion
 	}

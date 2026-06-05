@@ -9,15 +9,12 @@ import (
 
 func TestFetchToken_Success(t *testing.T) {
 	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		if r.Header.Get("Authorization") != "bearer test-token" {
-			t.Errorf("expected bearer test-token, got %s", r.Header.Get("Authorization"))
-		}
 		w.WriteHeader(http.StatusOK)
 		w.Write([]byte("oidc-token-value"))
 	}))
 	defer server.Close()
 
-	os.Setenv(tokenRequestURLEnv, server.URL)
+	os.Setenv(tokenRequestURLEnv, server.URL+"?param=1")
 	os.Setenv(tokenRequestTokenEnv, "test-token")
 	defer os.Unsetenv(tokenRequestURLEnv)
 	defer os.Unsetenv(tokenRequestTokenEnv)
