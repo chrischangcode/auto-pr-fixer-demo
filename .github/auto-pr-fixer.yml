@@ -1,0 +1,21 @@
+# auto-pr-fixer configuration
+mode: comment
+maxRetries: 2
+requireLabel: null    # run on all PRs for demo purposes
+workflows:
+  - CI
+branches:
+  include:
+    - "**"
+  exclude: []
+authors:
+  exclude:
+    - "dependabot[bot]"
+forks:
+  enabled: false
+logs:
+  maxLength: 8000
+  redactSecrets: true
+protectedPaths:
+  - ".github/workflows/**"
+  - ".github/auto-pr-fixer.yml"

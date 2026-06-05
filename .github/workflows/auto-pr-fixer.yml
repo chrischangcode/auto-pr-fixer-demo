@@ -1,0 +1,22 @@
+name: Auto PR Fixer
+
+on:
+  workflow_run:
+    workflows: ["CI"]
+    types: [completed]
+
+permissions:
+  actions: read
+  checks: read
+  contents: write
+  pull-requests: write
+  issues: write
+
+jobs:
+  fix:
+    if: github.event.workflow_run.conclusion == 'failure'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: chrischangcode/auto-pr-fixer@main
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
