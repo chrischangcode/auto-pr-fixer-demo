@@ -1,5 +1,6 @@
 package version
 
+import "runtime/debug"
 import "runtime"
 
 // gitTag is set via ldflags at build time.
@@ -26,7 +27,7 @@ func Get() Version {
 	if gitTag != "" {
 		v.Version = gitTag
 	}
-	info, ok := runtime.ReadBuildInfo()
+	info, ok := debug.ReadBuildInfo()
 	if ok && info.GoVersion != "" {
 		v.GoVersion = info.GoVersion
 	}
