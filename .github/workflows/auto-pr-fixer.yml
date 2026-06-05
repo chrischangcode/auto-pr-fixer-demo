@@ -19,4 +19,4 @@ jobs:
     steps:
       - uses: chrischangcode/auto-pr-fixer@main
         with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
+          github-token: ${{ secrets.AUTO_PR_FIXER_TOKEN }}
